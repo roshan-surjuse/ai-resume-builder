@@ -1,9 +1,5 @@
 import streamlit as st
-
-from ai import generate_summary
-from ats import calculate_ats_score
-from pdf_generator import create_pdf
-
+import base64
 
 st.set_page_config(
     page_title="AI Resume Builder",
@@ -11,6 +7,420 @@ st.set_page_config(
     layout="wide"
 )
 
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img:
+        return base64.b64encode(img.read()).decode()
+
+bg = get_base64_image("background.png")
+
+st.markdown("""
+<style>
+
+/* ===============================
+   BACKGROUND
+================================ */
+
+.stApp {
+
+background:
+
+linear-gradient(
+rgba(0,15,40,0.45),
+rgba(0,15,40,0.45)
+),
+
+url("BG_IMAGE");
+
+background-size:cover;
+
+background-position:center;
+
+background-attachment:fixed;
+
+}
+
+
+
+/* ===============================
+   MAIN PANEL
+================================ */
+
+.stMainBlockContainer {
+
+max-width:1000px !important;
+
+margin:auto !important;
+
+
+background:
+
+rgba(255,255,255,0.05);
+
+
+
+border:
+
+1.5px solid rgba(0,255,255,0.45);
+
+
+
+border-radius:
+
+25px;
+
+
+
+padding:
+
+35px !important;
+
+
+
+box-shadow:
+
+0 0 30px rgba(0,255,255,0.25);
+
+}
+
+
+
+
+
+/* ===============================
+   HEADINGS
+================================ */
+
+h1,h2,h3,h4 {
+
+color:#00ffff !important;
+
+font-weight:800 !important;
+
+text-shadow:
+
+0 0 10px #00ffff;
+
+}
+
+
+
+
+
+/* ===============================
+   NORMAL TEXT OUTPUT
+================================ */
+
+
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown li,
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li {
+
+color:white !important;
+
+font-size:18px !important;
+
+}
+
+
+
+
+
+/* ===============================
+   LABELS
+================================ */
+
+.stTextInput label,
+.stTextArea label,
+.stSelectbox label {
+
+color:white !important;
+
+font-size:18px !important;
+
+font-weight:bold !important;
+
+}
+
+
+
+
+
+/* ===============================
+   INPUT BOXES AQUA GLASS
+================================ */
+
+
+.stTextInput,
+.stTextArea,
+.stSelectbox {
+
+max-width:720px !important;
+
+margin:auto !important;
+
+margin-bottom:18px !important;
+
+}
+
+
+
+
+div[data-baseweb="input"] > div,
+div[data-baseweb="base-input"],
+div[data-baseweb="textarea"] {
+
+
+background:
+
+rgba(0,255,255,0.18) !important;
+
+
+
+border:
+
+2px solid rgba(0,255,255,0.75) !important;
+
+
+
+border-radius:
+
+14px !important;
+
+
+
+box-shadow:
+
+0 0 15px rgba(0,255,255,0.30);
+
+
+}
+
+
+
+
+
+/* ===============================
+   ONLY INPUT TEXT BLACK
+================================ */
+
+
+div[data-baseweb="input"] input,
+div[data-baseweb="textarea"] textarea {
+
+
+background:
+
+transparent !important;
+
+
+
+color:
+
+#000000 !important;
+
+
+
+-webkit-text-fill-color:
+
+#000000 !important;
+
+
+
+font-size:
+
+19px !important;
+
+
+
+font-weight:
+
+600 !important;
+
+
+}
+
+
+
+
+
+/* PLACEHOLDER */
+
+input::placeholder,
+textarea::placeholder {
+
+color:
+
+rgba(0,0,0,0.55) !important;
+
+}
+
+
+
+
+
+/* ===============================
+   TEXT AREA SIZE
+================================ */
+
+div[data-baseweb="input"] input {
+
+height:
+
+48px !important;
+
+}
+
+
+div[data-baseweb="textarea"] textarea {
+
+min-height:
+
+100px !important;
+
+}
+
+
+
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+
+.stButton button {
+
+
+background:
+
+linear-gradient(
+90deg,
+#00ffff,
+#0072ff
+) !important;
+
+
+
+color:white !important;
+
+
+
+width:240px;
+
+
+
+height:50px;
+
+
+
+border-radius:25px;
+
+
+
+font-size:18px;
+
+
+
+font-weight:bold;
+
+
+
+border:none;
+
+
+
+box-shadow:
+
+0 0 25px #00ffff;
+
+
+}
+
+
+
+
+
+/* ===============================
+   ALERT BOX
+================================ */
+
+
+.stAlert {
+
+background:
+
+rgba(0,255,255,0.12) !important;
+
+
+
+color:white !important;
+
+
+
+border-radius:15px !important;
+
+}
+
+
+
+
+
+/* ===============================
+   RESUME PREVIEW
+================================ */
+
+
+.resume-container {
+
+
+background:
+
+rgba(0,255,255,0.10);
+
+
+
+border:
+
+2px solid rgba(0,255,255,0.60);
+
+
+
+border-radius:
+
+20px;
+
+
+
+padding:
+
+25px;
+
+
+}
+
+
+
+.resume-container * {
+
+color:white !important;
+
+}
+
+
+
+
+
+</style>
+""".replace("BG_IMAGE", f"data:image/png;base64,{bg}"),
+unsafe_allow_html=True)
+
+from ai import generate_summary
+from ats import calculate_ats_score
+from pdf_generator import create_pdf
 
 st.title("📄 AI Resume Builder")
 st.write("Create Professional ATS Friendly Resume")
@@ -32,7 +442,8 @@ email = st.text_input("Email")
 phone = st.text_input("Phone Number")
 
 address = st.text_input(
-    "Address / Location"
+    "Address / Location",
+    placeholder="Amravati, Maharashtra"
 )
 
 
@@ -139,6 +550,22 @@ if st.button("🚀 Generate Resume"):
     st.write(
         f"Your ATS Score: {score}/100"
     )
+    
+    if score >= 90:
+
+        st.success("🟢 Excellent ATS Resume (90-100)")
+
+    elif score >= 75:
+
+        st.info("🟡 Very Good ATS Resume (75-89)")
+
+    elif score >= 60:
+
+        st.warning("🟠 Average ATS Resume (60-74)")
+
+    else:
+
+        st.error("🔴 ATS Resume Needs Improvement")
 
 
     if matched_keywords:
@@ -199,7 +626,7 @@ if st.button("🚀 Generate Resume"):
     st.write(title)
 
     st.markdown(
-    f"""
+f"""
 **{name}**
 
 *{title}*
@@ -210,12 +637,8 @@ if st.button("🚀 Generate Resume"):
 """
 )
 
-
-    st.markdown("## 💻 Technical Skills")
-
     st.write(skills)
-
-
+    
     st.markdown("## 🚀 Projects")
 
     st.write(projects)
@@ -238,6 +661,9 @@ if st.button("🚀 Generate Resume"):
 
 
     # Create PDF
+    st.write("DEBUG BEFORE PDF")
+    st.write("TITLE VALUE:", title)
+    st.write("SUMMARY VALUE:", summary)
 
     pdf_file = create_pdf(
         name,

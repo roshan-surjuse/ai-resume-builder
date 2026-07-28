@@ -1,7 +1,14 @@
-def generate_summary(name, skills, education, experience):
+def generate_summary(
+    name,
+    skills,
+    education,
+    experience
+):
+
+    skills_text = skills.replace("-", "").replace("\n", ", ")
 
     summary = f"""
-{name} is a {education} candidate with strong skills in {skills}.
+{name} is a {education} candidate with strong skills in {skills_text}.
 
 The candidate has experience in {experience}.
 
@@ -12,4 +19,7 @@ Able to learn new technologies and contribute effectively
 to professional software projects.
 """
 
-    return summary
+    summary = summary.replace(", .", ".")
+    summary = summary.replace(" .", ".")
+
+    return summary.strip()
