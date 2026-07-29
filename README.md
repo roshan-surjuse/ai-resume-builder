@@ -72,9 +72,18 @@ Features:
 
 ---
 
-# 🖥️ Application Preview
+# 🖥️ Application Screenshots
+
+## 🏠 Home Interface
+
+![Home Interface](screenshots/home.png)
 
 
-(Add screenshots here)
+## 📊 ATS Score Analysis
 
-Example:
+![ATS Score](screenshots/ats-score.png)
+
+
+## 📄 Resume Preview
+
+![Resume Preview](screenshots/resume-preview.png)
