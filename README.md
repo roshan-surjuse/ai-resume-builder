@@ -1,5 +1,20 @@
 # 🤖 AI Resume Builder
 
+## 🌐 Live Demo
+
+🚀 Coming Soon (Deployment in Progress)
+
+---
+
+## 🎯 Project Highlights
+
+⭐ AI-powered resume generation  
+⭐ ATS compatibility analysis  
+⭐ Keyword matching system  
+⭐ Professional PDF resume export  
+⭐ Modern Streamlit dashboard  
+⭐ Recruiter-friendly resume formatting
+
 <palign="center">
 
 <img src="https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python">
