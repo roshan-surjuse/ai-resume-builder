@@ -2,8 +2,9 @@
 
 ## 🌐 Live Demo
 
-🚀 Coming Soon (Deployment in Progress)
+🚀 Try the application here:
 
+https://ai-resume-builder-gn4bfy4rus5ud4wxvd5s7q.streamlit.app/
 ---
 
 ## 🎯 Project Highlights
