@@ -1,1 +1,5 @@
 streamlit
+fpdf2
+Pillow
+openai
+python-dotenv
