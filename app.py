@@ -12,7 +12,7 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
 
-bg = get_base64_image("background.png")
+bg = get_base64_image("assets/background.png")
 
 st.markdown("""
 <style>
